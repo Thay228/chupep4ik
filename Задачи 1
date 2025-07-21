@@ -34,7 +34,25 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 2)
+package main
 
+import (
+	"fmt"
+	"sort"
+)
+
+func mergeAndSort(arr1, arr2 []int) []int {
+	arr3 := append(arr1, arr2...)
+	sort.Ints(arr3)
+	return arr3
+}
+
+func main() {
+	fmt.Println(mergeAndSort([]int{3, 1, 5}, []int{4, 2, 6})) // [1 2 3 4 5 6]
+	fmt.Println(mergeAndSort([]int{8, 2, 0}, []int{7, 3, 1})) // [0 1 2 3 7 8]
+}
+----------------------------------------------------------------------------------------------------------
+3)
 
 
 
