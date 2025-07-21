@@ -1,1 +1,68 @@
 1)
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func secondMax(sex []int) (int, error) {
+	if len(sex) < 2 {
+		return 0, errors.New("ТЫ ЕБАНУТЫ?")
+	}
+	max1, max2 := sex[1], sex[0]
+	if max1 < max2 {
+		max1, max2 = max2, max1
+	}
+	for i := 2; i < len(sex); i++ {
+		if sex[i] > max1 {
+			max2 = max1
+			max1 = sex[i]
+		}else if (sex[i] > max2 && sex[i] < max1) || (max2 == max1 && sex[i] < max1) {
+			max2 = sex[i]
+		}
+	}
+	return max2, nil
+}
+
+func main() {
+	fmt.Println(secondMax([]int{10, 20})) //10
+	fmt.Println(secondMax([]int{20, 10})) //10    
+	fmt.Println(secondMax([]int{5, 5, 1})) //1   
+	fmt.Println(secondMax([]int{10, 5, 10})) //5
+	fmt.Println(secondMax([]int{-10, -5, 0})) //-5
+}
+----------------------------------------------------------------------------------------------------------
+2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
