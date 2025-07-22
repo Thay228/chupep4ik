@@ -152,6 +152,40 @@ func main() {
 	fmt.Println(charCase('1')) // "Другое"
 	fmt.Println(charCase('😊')) // "Другое"
 }
+----------------------------------------------------------------------------------------------------------
+7)
+package main
+
+import "fmt"
+
+func calculator(a, b int, op string) (int, error) {
+
+	switch op {
+	case "+":
+		return a + b, nil
+	case "-":
+		return a - b, nil
+	case "*":
+		return a * b, nil
+	case "/":
+		if b == 0 {
+			return 0, fmt.Errorf("ашале, ты зачем на 0 то делишь")
+		} else {
+			return a / b, nil
+		}
+	}
+
+	return 0, fmt.Errorf("ой баля, я не понимаю чё ты хочешь")
+
+}
+
+func main() {
+	fmt.Println(calculator(10, 5, "+")) // 15
+	fmt.Println(calculator(10, 5, "-")) // 5
+	fmt.Println(calculator(10, 5, "*")) // 50
+	fmt.Println(calculator(10, 0, "/")) // 0
+
+}
 
 
 
