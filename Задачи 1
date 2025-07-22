@@ -100,6 +100,31 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 5)
+package main
+
+import (
+	"fmt"
+)
+
+func reverseSTR(a string) string {
+	length := len(a)
+
+	b := make([]rune, length)
+
+	for i, r := range a {
+		b[length-1-i] = r
+	}
+
+	return string(b)
+}
+
+func main() {
+	fmt.Println(reverseSTR("hello"))  // "olleh"
+	fmt.Println(reverseSTR("Привет")) // "тевирП"
+	fmt.Println(reverseSTR("Hai"))    // "iaH"
+	fmt.Println(reverseSTR("Сосал"))  // "ласоС"
+
+}
 
 
 
