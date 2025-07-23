@@ -258,7 +258,30 @@ func main() {
 
 }
 ----------------------------------------------------------------------------------------------------------
+11)
+package main
 
+import (
+	"fmt"
+	"math"
+)
+
+func powerFunc(su int) func(int) int {
+	return func(c int) int {
+		return int(math.Round(math.Pow(float64(c), float64(su))))
+	}
+}
+
+func main() {
+	square := powerFunc(2)
+	fmt.Println(square(-3)) //9
+	fmt.Println(square(5))  // 25
+	cube := powerFunc(3)
+	fmt.Println(cube(2)) // 8
+	fmt.Println(cube(3)) // 27
+
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
