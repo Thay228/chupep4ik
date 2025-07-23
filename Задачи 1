@@ -234,8 +234,30 @@ func main() {
 	fmt.Println(reverseNumber(-987)) // -789
 	fmt.Println(reverseNumber(-100)) // -1
 }
+----------------------------------------------------------------------------------------------------------
+10)
+package main
 
+import (
+	"fmt"
+)
 
+func sequenceGenerator() func() int {
+	k := 0
+	return func() int {
+		k += 1
+		return k
+	}
+}
+
+func main() {
+	next := sequenceGenerator()
+	fmt.Println(next()) // 1
+	fmt.Println(next()) // 2
+	fmt.Println(next()) // 3
+
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
