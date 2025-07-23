@@ -322,8 +322,40 @@ func main() {
 	increment(&n)
 	fmt.Println(n) // 9
 }
+----------------------------------------------------------------------------------------------------------
+14)
+package main
+
+import (
+	"fmt"
+)
+
+func appendValue(slice *[]int, value int) {
+	*slice = append(*slice, value)
+}
+
+func main() {
+	nums := []int{1, 2, 3}
+	appendValue(&nums, 4)
+	fmt.Println(nums) // [1 2 3 4]
+	mk := []int{}
+	appendValue(&mk, 5)
+	fmt.Println(mk) // [5]
+}
 
 
+func appendValue1(slice []int, value int) []int {
+    return append(slice, value)}
+
+func main() {
+	nums := []int{1, 2, 3}
+	nums = appendValue1(nums, 4)
+	fmt.Println(nums) // [1 2 3 4]
+	mk := []int{}
+	mk = appendValue1(mk, 5)
+	fmt.Println(mk) // [5]
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
