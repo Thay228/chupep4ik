@@ -375,6 +375,29 @@ func main() {
 	fmt.Println(removeAtIndex([]int{1, 2, 3, 4, 5}, 2)) // [1 2 4 5]
 	fmt.Println(removeAtIndex([]int{10, 20, 30}, 5))    // [10 20 30]
 }
+----------------------------------------------------------------------------------------------------------
+16)
+package main
+
+import (
+	"fmt"
+)
+
+func safeDivide(a, b int) (re int) {
+	defer func() {
+		if r := recover(); r != nil {
+			re = 0
+		}
+	}()
+
+	return a / b
+}
+
+func main() {
+	fmt.Println(safeDivide(10, 2)) // 5
+	fmt.Println(safeDivide(10, 0)) // 0 (вместо паники)
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
