@@ -424,7 +424,29 @@ func main() {
 	})
 }
 ----------------------------------------------------------------------------------------------------------
+18)
+package main
 
+import (
+	"fmt"
+	"strings"
+)
+
+func wordCount(s string) map[string]int {
+	ku := map[string]int{}
+	pi := strings.Fields(s)
+	for _, y := range pi {
+		c := strings.ToLower(strings.Trim(y, "!@#$%^&*(),.?"))
+		ku[c]++
+	}
+	return ku
+
+}
+
+func main() {
+	fmt.Println(wordCount("Hello, hello world! Hello world.")) // map[hello:3 world:2]
+	
+}
 
 
 
