@@ -488,6 +488,28 @@ func main() {
 	fmt.Println(mergeMaps(m1, m2)) // map[apple:5 banana:5 orange:4]
 }
 ----------------------------------------------------------------------------------------------------------
+21)
+package main
+
+import (
+	"fmt"
+)
+
+type Rectangle struct {
+	Width  float64
+	Height float64
+}
+
+func (a Rectangle) Area() float64 {
+	return a.Width * a.Height
+}
+
+func main() {
+	r := Rectangle{Width: 5, Height: 10}
+	fmt.Println(r.Area()) // 50
+}
+----------------------------------------------------------------------------------------------------------
+22)
 
 
 
