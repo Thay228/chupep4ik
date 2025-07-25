@@ -447,7 +447,27 @@ func main() {
 	fmt.Println(wordCount("Hello, hello world! Hello world.")) // map[hello:3 world:2]
 	
 }
+----------------------------------------------------------------------------------------------------------
+19)
+package main
 
+import (
+	"fmt"
+)
+
+func invertMap(m map[string]int) map[int]string {
+	n := map[int]string{}
+	for i, y := range m {
+		n[y] = i
+	}
+	return n
+}
+
+func main() {
+	m := map[string]int{"a": 1, "b": 2, "c": 1}
+	fmt.Println(invertMap(m)) // map[1:"a" или "c", 2:"b"]
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
