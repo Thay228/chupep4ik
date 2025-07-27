@@ -510,6 +510,56 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 22)
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+type Product struct {
+	ID       int64
+	Name     string
+	Price    float64
+	Quantity int64
+}
+
+type Inventory struct {
+	Products map[int64]Product
+}
+
+func NewInventory() Inventory {
+	return Inventory{
+		Products: make(map[int64]Product),
+	}
+}
+
+func (in Inventory) AddProduct(p Product) {
+	in.Products[p.ID] = p
+}
+
+func (in *Inventory) SellProduct(id, qty int64) error {
+	if prod, ok := in.Products[id]; ok {
+		if prod.Quantity >= qty {
+			prod.Quantity = prod.Quantity - qty
+			in.Products[id] = prod
+			return nil
+		} else {
+			return errors.New("Ошибка: недостаточно товара")
+		}
+	} else {
+		return errors.New("Ошибка: товар не найден")
+	}
+}
+
+func main() {
+	inv := NewInventory()
+	inv.AddProduct(Product{ID: 1, Name: "Телефон", Price: 30000, Quantity: 10})
+	fmt.Println(inv.SellProduct(1, 3)) // nil
+	fmt.Println(inv.SellProduct(1, 8)) // Ошибка: недостаточно товара
+}
+----------------------------------------------------------------------------------------------------------
+23)
 
 
 
