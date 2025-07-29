@@ -626,7 +626,51 @@ func main() {
 	fmt.Println(bs.GetTicket(1))    // Ошибка: билет не найден
 }
 ----------------------------------------------------------------------------------------------------------
+24)
+package main
 
+import (
+	"fmt"
+	"regexp"
+	"strings"
+)
+
+type TextProcessor struct {
+	Text string
+}
+
+func (te *TextProcessor) WordCount() map[string]int {
+	re := regexp.MustCompile(`[\p{P}\p{S}]+`)
+	up_nest := strings.Fields(re.ReplaceAllString(te.Text, ""))
+	map_nest := make(map[string]int, len(up_nest))
+	for _, y := range up_nest {
+		vs := strings.ToLower(y)
+		map_nest[vs]++
+	}
+	return map_nest
+}
+
+func (te *TextProcessor) ReplaceWord(old, new string) {
+	re := regexp.MustCompile(`([!?.]\s*)([a-z])`)
+	nest := strings.ReplaceAll(strings.ToLower(te.Text), old, new)
+	chao := re.ReplaceAllStringFunc(nest, func(sm string) string {
+		pats := re.FindStringSubmatch(sm)
+		if len(pats) < 3 {
+			return sm
+		}
+		return pats[1] + strings.ToUpper(pats[2])
+	})
+	te.Text = strings.ToUpper(chao[:1]) + chao[1:]
+}
+
+func main() {
+	tp := TextProcessor{"Hello world, hello again! hello everyone!!!"}
+	fmt.Println(tp.WordCount()) // map[hello:2 world:1 again:1]
+	tp.ReplaceWord("hello", "hi")
+	fmt.Println(tp.Text) // "Hi world, hi again! Hi everyone!!!."
+}
+----------------------------------------------------------------------------------------------------------
+25)
 
 
 
