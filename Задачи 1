@@ -560,8 +560,72 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 23)
+package main
 
+import (
+	"errors"
+	"fmt"
+)
 
+type Ticket struct {
+	ID            int64
+	PassengerName string
+	Destination   string
+}
+
+type BookingSystem struct {
+	//mu      sync.Mutex      // Добавляем мьютекс
+	Tickets map[int64]Ticket
+}
+
+func NewBookingSystem() BookingSystem {
+	return BookingSystem{
+		Tickets: map[int64]Ticket{},
+	}
+}
+
+func (bs *BookingSystem) BookTicket(id int64, name, destination string) error {
+	//bs.mu.Lock()         // Блокировка
+	//defer bs.mu.Unlock() // Разблокировка при выходе
+	if _, ok := bs.Tickets[id]; ok {
+		return errors.New("Ошибка: билет с таким ID уже существует")
+	}
+	bs.Tickets[id] = Ticket{
+		ID:            id,
+		PassengerName: name,
+		Destination:   destination,
+	}
+	return nil
+}
+
+func (bs *BookingSystem) CancelTicket(id int64) error {
+	// bs.mu.Lock()         // Блокировка при работе в многопоточной среде
+	// defer bs.mu.Unlock() // Гарантированная разблокировка
+	if _, ok := bs.Tickets[id]; ok {
+		delete(bs.Tickets, id)
+		return nil
+	}
+
+	return errors.New("Ошибка: билет с таким ID не найден")
+}
+
+func (bs BookingSystem) GetTicket(id int64) (Ticket, error) {
+	// bs.mu.Lock()         // Блокировка для чтения в многопоточной среде
+	// defer bs.mu.Unlock() // Гарантированная разблокировка
+	if ticket, ok := bs.Tickets[id]; ok {
+		return ticket, nil
+	}
+	return Ticket{}, errors.New("Ошибка: билет не найден")
+}
+
+func main() {
+	bs := NewBookingSystem()
+	bs.BookTicket(1, "Иван", "Москва")
+	fmt.Println(bs.GetTicket(1))    // {1 Иван Москва}, nil
+	fmt.Println(bs.CancelTicket(1)) // nil
+	fmt.Println(bs.GetTicket(1))    // Ошибка: билет не найден
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
