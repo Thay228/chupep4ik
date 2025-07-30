@@ -671,7 +671,62 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 25)
+package main
 
+import (
+	"fmt"
+	"math"
+)
+
+type Shape interface {
+	Area() float64
+	Perimeter() float64
+}
+
+type Rectangle struct {
+	Width  float64
+	Height float64
+}
+
+func (r Rectangle) Area() float64 {
+	return r.Width * r.Height
+}
+
+func (r Rectangle) Perimeter() float64 {
+	return r.Width*2 + r.Height*2
+}
+
+type Circle struct {
+	Radius float64
+}
+
+func (c Circle) Area() float64 {
+	return math.Pi * math.Pow(c.Radius, 2)
+}
+
+func (c Circle) Perimeter() float64 {
+	return 2 * math.Pi * c.Radius
+}
+
+func printShapeInfo(s Shape) {
+	switch ty := s.(type) {
+	case Rectangle:
+		fmt.Printf("Прямоугольник - Площадь: %.2f, Периметр: %.2f;", ty.Area(), ty.Perimeter())
+	case Circle:
+		fmt.Printf("Круг - Площадь: %.2f, Периметр: %.2f;", ty.Area(), ty.Perimeter())
+	}
+}
+
+func main() {
+	r := Rectangle{Width: 5, Height: 10}
+	c := Circle{Radius: 3}
+	printShapeInfo(r)
+	// Прямоугольник - Площадь: 50, Периметр: 30
+	printShapeInfo(c)
+	// Круг - Площадь: 28.27, Периметр: 18.85
+}
+----------------------------------------------------------------------------------------------------------
+26)
 
 
 
