@@ -727,8 +727,86 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 26)
+package main
 
+import (
+	"fmt"
+)
 
+type Sorter interface {
+	Sort([]int) []int
+}
+
+type BubbleSort struct{}
+
+func (bs BubbleSort) Sort(m []int) []int {
+	if len(m) <= 1 {
+		return m
+	}
+	n := len(m)
+	for i := 0; i < n-1; i++ {
+		swap := false
+		for j := 0; j < n-i-1; j++ {
+			if m[j] > m[j+1] {
+				m[j], m[j+1] = m[j+1], m[j]
+				swap = true
+			}
+		}
+		if !swap {
+			break
+		}
+	}
+
+	return m
+}
+
+type QuickSort struct{}
+
+func (qs QuickSort) Sort(m []int) []int {
+	if len(m) <= 1 {
+		return m
+	}
+	quickSort(m, 0, len(m)-1)
+	return m
+}
+
+func quickSort(m []int, low, hih int) {
+	if low < hih { // Важное условие!
+		pivotIndex := partition(m, low, hih)
+		quickSort(m, low, pivotIndex-1)
+		quickSort(m, pivotIndex+1, hih)
+	}
+}
+
+func partition(m []int, lo, hih int) int {
+	pivo := m[hih]
+	i := lo
+	for j := lo; j < hih; j++ {
+		if m[j] <= pivo {
+			m[i], m[j] = m[j], m[i]
+			i++
+		}
+	}
+	m[i], m[hih] = m[hih], m[i]
+	return i
+}
+
+func sortNumbers(s Sorter, m []int) []int {
+	ws := make([]int, len(m))
+	copy(ws, m)
+	s.Sort(ws)
+	return ws
+}
+
+func main() {
+	bSorter := BubbleSort{}
+	qSorter := QuickSort{}
+	nums := []int{5, 2, 9, 1, 5, 6}
+	fmt.Println(sortNumbers(bSorter, nums)) // [1 2 5 5 6 9] (BubbleSort)
+	fmt.Println(nums)                       // [5 2 9 1 5 6]
+	fmt.Println(sortNumbers(qSorter, nums)) // [1 2 5 5 6 9] (QuickSort)
+}
+----------------------------------------------------------------------------------------------------------
 
 
 
