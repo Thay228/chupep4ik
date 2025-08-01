@@ -67,7 +67,50 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 3)
+package main
 
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+)
+
+var wg sync.WaitGroup
+
+func sumPart(nums []int, resultCh chan int) {
+	defer wg.Done()
+	s := 0
+	for _, x := range nums {
+		s += x
+	}
+	resultCh <- s
+}
+
+func main() {
+	const parts = 10
+	nums := make([]int, 1000)
+	for i := range nums {
+		nums[i] = rand.Intn(100)
+	}
+	resultCh := make(chan int, parts)
+
+	tb := 0
+	for i := 0; i < parts; i++ {
+		wg.Add(1)
+		go sumPart(nums[i*100:(i+1)*100], resultCh)
+	}
+
+	wg.Wait()
+	close(resultCh)
+
+	for s := range resultCh {
+		tb += s
+	}
+
+	fmt.Println(tb)
+}
+----------------------------------------------------------------------------------------------------------
+4)
 
 
 
