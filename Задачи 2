@@ -269,7 +269,66 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 8)
+package main
 
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+type SafeNumber struct {
+	value int
+	mu    sync.RWMutex
+}
+
+func (s *SafeNumber) Get() int {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.value
+}
+
+func (s *SafeNumber) Set(v int) {
+	s.mu.Lock()
+	s.value = s.value + v
+	s.mu.Unlock()
+}
+func main() {
+	n := rand.Intn(107)
+	iV := n
+	sfn := SafeNumber{
+		value: n,
+		mu:    sync.RWMutex{},
+	}
+	for i := 0; i < 6; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < 3; j++ {
+				sfn.Get()
+				time.Sleep(time.Millisecond * 100)
+
+			}
+		}()
+	}
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 3; i++ {
+			time.Sleep(time.Second)
+			sfn.Set(rand.Intn(100))
+		}
+	}()
+
+	wg.Wait()
+	fmt.Println(sfn.value, iV)
+}
+----------------------------------------------------------------------------------------------------------
+9)
 
 
 
