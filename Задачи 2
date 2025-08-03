@@ -223,7 +223,52 @@ func main() {
 }
 ----------------------------------------------------------------------------------------------------------
 7)
+package main
 
+import (
+	"context"
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+var wg sync.WaitGroup
+
+func rut(ctx context.Context, ch chan string, i int) {
+	defer wg.Done()
+
+	n := time.Duration(rand.Intn(500)+100) * time.Millisecond
+	time.Sleep(n)
+	select {
+	case ch <- fmt.Sprintf("Горутина %d (%v) ВСЁ", i, n):
+	case <-ctx.Done():
+		return
+	}
+}
+
+func main() {
+	chck := make(chan string, 2)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	wg.Add(2)
+	go rut(ctx, chck, 1)
+	go rut(ctx, chck, 2)
+
+	g1 := <-chck
+	fmt.Println(g1)
+	cancel()
+
+	select {
+	case g2 := <-chck:
+		fmt.Println(g2)
+	default:
+		fmt.Println("Вторая горутина была отменена")
+	}
+}
+----------------------------------------------------------------------------------------------------------
+8)
 
 
 
